@@ -1,4 +1,8 @@
 # 📚 DocuMind AI — RAG Document Chatbot
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)
+![LangChain](https://img.shields.io/badge/LLM-LangChain-green)
+![License](https://img.shields.io/badge/License-MIT-yellow)
 
 DocuMind AI is an intelligent **Retrieval-Augmented Generation (RAG)** powered chatbot that allows users to interact with PDF documents conversationally.
 
@@ -8,7 +12,34 @@ The system combines **LLMs, vector retrieval, and document embeddings** to gener
 
 ---
 
+## Highlights
+
+• Built an end-to-end Retrieval Augmented Generation pipeline  
+• Implemented cross-encoder reranking for improved retrieval accuracy  
+• Added semantic confidence scoring for answer reliability  
+• Designed dynamic question suggestions for better user onboarding  
+• Built interactive Streamlit interface with document upload support
+
+---
+
+---
+
+## How It Works
+
+1. Documents are loaded and split into chunks
+2. Each chunk is embedded using sentence-transformers
+3. Embeddings are stored in a FAISS vector database
+4. User queries retrieve relevant chunks
+5. Chunks are reranked using a cross-encoder
+6. Top context is passed to Groq LLM
+7. Response is generated with source citations
+
+---
+
 # 🚀 Demo UI
+
+## Live Demo
+Streamlit App: Coming Soon...
 
 ![DocuMind UI](assets/app_UI.JPG)
 
@@ -211,7 +242,7 @@ documind-ai-rag-chatbot
 Clone the repository
 
 ```
-git clone https://github.com/YOUR_USERNAME/documind-ai-rag-chatbot.git
+git clone https://github.com/mohammedaz33m/documind-ai-rag-chatbot.git
 cd documind-ai-rag-chatbot
 ```
 
