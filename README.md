@@ -22,8 +22,6 @@ The system combines **LLMs, vector retrieval, and document embeddings** to gener
 
 ---
 
----
-
 ## How It Works
 
 1. Documents are loaded and split into chunks
@@ -38,8 +36,8 @@ The system combines **LLMs, vector retrieval, and document embeddings** to gener
 
 # 🚀 Demo UI
 
-## Live Demo
-Streamlit App: Coming Soon...
+### Live Demo
+**Streamlit App**: [DocuMind AI App](https://azmxj8vvumpaye2ujmpmts.streamlit.app/)
 
 ![DocuMind UI](assets/app_UI.JPG)
 
@@ -345,14 +343,21 @@ See the LICENSE file for details.
 
 Mohammed Azeem
 
-AI / Data / Analytics Professional exploring advanced Generative AI systems and RAG architectures.
+AI / Data Science / Analytics Professional exploring advanced Generative AI systems and RAG architectures.
 
 ---
 
 # 🙏 Acknowledgements
 
-Inspired by modern RAG systems used in tools like:
+## Acknowledgements
 
+This project was initially inspired by a tutorial that provided the foundation for building a basic RAG chatbot.  
+The implementation in this repository significantly expands upon that foundation with additional improvements in retrieval architecture, reranking, UI interaction, and system design.
+
+[![Tutorial](https://img.youtube.com/vi/mNUv-DN_Bek/0.jpg)](https://www.youtube.com/watch?v=mNUv-DN_Bek)
+
+Enhancements inspired by modern RAG systems used in tools like:
+
+- ChatGPT
 - Perplexity AI
-- ChatPDF
 - Retrieval-based AI assistants
