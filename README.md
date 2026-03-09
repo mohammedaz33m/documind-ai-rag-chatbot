@@ -1,8 +1,12 @@
 # 📚 DocuMind AI — RAG Document Chatbot
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Streamlit](https://img.shields.io/badge/Framework-Streamlit-red)
-![LangChain](https://img.shields.io/badge/LLM-LangChain-green)
+![Streamlit](https://img.shields.io/badge/UI-Streamlit-red)
+![LangChain](https://img.shields.io/badge/Framework-LangChain-green)
+![Groq](https://img.shields.io/badge/LLM-Groq-purple)
+![FAISS](https://img.shields.io/badge/VectorDB-FAISS-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
+
+RAG Architecture: Groq Llama 3.1 + LangChain + FAISS + Streamlit
 
 DocuMind AI is an intelligent **Retrieval-Augmented Generation (RAG)** powered chatbot that allows users to interact with PDF documents conversationally.
 
