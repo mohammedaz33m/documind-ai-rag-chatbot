@@ -208,14 +208,17 @@ def get_vector_store(uploaded_file = None):
         model_name = EMBEDDING_MODEL
     )
 
-    # If index already exists → load it
+    # If index already exists → try to load it 
     if os.path.exists(f"{index_path}/index.faiss"):
-        vectorstore = FAISS.load_local(
-            index_path,
-            embeddings,
-            allow_dangerous_deserialization=True
-        )
-        return vectorstore
+        try:
+            vectorstore = FAISS.load_local(
+                index_path,
+                embeddings,
+                allow_dangerous_deserialization=True
+            )
+            return vectorstore
+        except:
+            pass # If loading fails for any reason (e.g. corrupted index), we’ll proceed to create a new one. This ensures the app remains functional even if the cached index is unusable.
 
     # Otherwise create a new one
     loader = PyPDFLoader(pdf_path)
@@ -298,24 +301,21 @@ if prompt:
             search_type = RETRIEVER_TYPE,
             search_kwargs = {"k": TOP_K, "fetch_k": FETCH_K}
         )
-        ## Step2 We re write the prompt for the folowup question
-        contextualize_q_prompt = ChatPromptTemplate.from_messages(
-        [
+
+        contextualize_q_prompt = ChatPromptTemplate.from_messages([
             ("system",
             "Given the chat history and the latest user question, rewrite the question so it is a standalone question."),
             ("placeholder", "{chat_history}"),
             ("human", "{input}")
-        ]
-        )
-
-        ##step3 - history aware retriever
+        ])
+        
         history_aware_retriever = create_history_aware_retriever(
             groq_chat,
             retriever,
             contextualize_q_prompt
         )
 
-        # Step 4: QA prompt
+        # Step: QA prompt
         qa_prompt = ChatPromptTemplate.from_messages(
         [
             ("system",
@@ -331,23 +331,29 @@ if prompt:
         ]
         )
 
-        # Step 5: document answering chain
+        # Step : document answering chain
         question_answer_chain = create_stuff_documents_chain(
             groq_chat,
             qa_prompt
         )
 
-        # Step 6: full retrieval chain
+        # Step : full retrieval chain
         chain = create_retrieval_chain(
             history_aware_retriever,
             question_answer_chain
         )
 
-        ## Step 7: run the chain
-        result = chain.invoke({
-            "input": prompt,
-            "chat_history": memory.chat_memory.messages
-        })
+        ## Step : run the chain  + added loading spinner for better UX while waiting for the response from LLM
+        with st.spinner("🤔 Thinking..."):
+            result = chain.invoke({
+                "input": prompt,
+                "chat_history": memory.chat_memory.messages
+            })
+        # Save the conversation context and the answer in the memory after each interaction, so that it can be used for history-aware retrieval in subsequent interactions. This allows the system to remember past interactions and provide more contextually relevant answers over time.
+        memory.save_context({
+            "input": prompt},
+            {"answer": result["answer"]}
+            )
 
         # Re-ranking the chunks
         docs = result["context"]
@@ -424,8 +430,26 @@ if prompt:
 
         st.session_state.messages.append({'role':'assistant', 'content':response})
 
+    # Added Specific error handling for common issues like file not found, API key problems, rate limits, and connection errors to provide clearer feedback to users and improve the overall user experience.
+    except FileNotFoundError:
+        st.error("❌ PDF file not found. Please check the file path.")
+        st.stop()
+    
     except Exception as e:
-        st.error(f"Error: [{str(e)}]")
+        error_msg = str(e).lower()
+        
+        if "rate limit" in error_msg or "429" in error_msg:
+            st.error("⏳ Groq API rate limit reached. Please wait a moment and try again.")
+        elif "api key" in error_msg or "401" in error_msg:
+            st.error("🔑 API key issue. Please check your GROQ_API_KEY in .env file.")
+        elif "connection" in error_msg or "timeout" in error_msg:
+            st.error("🌐 Connection error. Please check your internet connection.")
+        else:
+            st.error(f"❌ An error occurred: {str(e)}")
+            with st.expander("🔍 See full error details"):
+                st.exception(e)
+        
+        st.stop()
 
 
 ## Footer
