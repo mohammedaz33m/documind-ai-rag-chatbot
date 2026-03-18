@@ -2,67 +2,8 @@
 DocuMind AI follows a Retrieval Augmente Generation (RAG) pipeline.
 
 # Flow
-+---------------------------+
-| USER UPLOADS PDF |
-+---------------------------+
-             |
-             v
-+---------------------------+
-| DOCUMENT PROCESSING |
-| 1. Load PDF (PyPDFLoader)|
-| 2. Split into chunks |
-| (RecursiveCharacter...)|
-| 3. Convert to embeddings |
-| (HuggingFace) |
-| 4. Store in FAISS DB |
-+---------------------------+
 
-
-┌─────────────────────────────────────────────────────────┐
-│                    USER UPLOADS PDF                      │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              DOCUMENT PROCESSING                         │
-│  1. Load PDF (PyPDFLoader)                              │
-│  2. Split into chunks (RecursiveCharacterTextSplitter)  │
-│  3. Convert to embeddings (HuggingFace)                 │
-│  4. Store in vector DB (FAISS)                          │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│                  USER ASKS QUESTION                      │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              RETRIEVAL PIPELINE                          │
-│  1. Convert question to embedding                        │
-│  2. Search FAISS for similar chunks (MMR)               │
-│  3. Rerank with CrossEncoder                            │
-│  4. Return top K chunks                                  │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              GENERATION PIPELINE                         │
-│  1. Build prompt with:                                   │
-│     - Retrieved chunks (context)                         │
-│     - Chat history                                       │
-│     - User question                                      │
-│  2. Send to Groq LLM                                    │
-│  3. Get response                                         │
-└────────────────────┬────────────────────────────────────┘
-                     │
-                     ▼
-┌─────────────────────────────────────────────────────────┐
-│              POST-PROCESSING                             │
-│  1. Calculate confidence score                           │
-│  2. Save to conversation memory                          │
-│  3. Display with source citations                        │
-└─────────────────────────────────────────────────────────┘
+![Documind AI Flow](assets/architecture.JPG)
 
 # Key Components
 
