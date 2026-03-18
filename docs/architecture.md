@@ -3,7 +3,7 @@ DocuMind AI follows a Retrieval Augmente Generation (RAG) pipeline.
 
 # Flow
 
-![Documind AI Flow](assets/architecture.JPG)
+![Documind AI Flow](../assets/architecture.JPG)
 
 # Key Components
 
