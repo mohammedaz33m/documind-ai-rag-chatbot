@@ -2,6 +2,22 @@
 DocuMind AI follows a Retrieval Augmente Generation (RAG) pipeline.
 
 # Flow
++---------------------------+
+| USER UPLOADS PDF |
++---------------------------+
+             |
+             v
++---------------------------+
+| DOCUMENT PROCESSING |
+| 1. Load PDF (PyPDFLoader)|
+| 2. Split into chunks |
+| (RecursiveCharacter...)|
+| 3. Convert to embeddings |
+| (HuggingFace) |
+| 4. Store in FAISS DB |
++---------------------------+
+
+
 ┌─────────────────────────────────────────────────────────┐
 │                    USER UPLOADS PDF                      │
 └────────────────────┬────────────────────────────────────┘
