@@ -6,7 +6,6 @@
 ![FAISS](https://img.shields.io/badge/VectorDB-FAISS-orange)
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
-RAG Architecture: Groq Llama 3.1 + LangChain + FAISS + Streamlit
 
 DocuMind AI is an intelligent **Retrieval-Augmented Generation (RAG)** powered chatbot that allows users to interact with PDF documents conversationally.
 
